@@ -10,8 +10,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddControllers();
 
-builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-
+builder.Services.AddValidatorsFromAssemblyContaining<Program>(); //register FluentValidation validators
 
 
 var app = builder.Build();
