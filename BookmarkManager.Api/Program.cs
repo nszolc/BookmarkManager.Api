@@ -1,4 +1,5 @@
 using BookmarkManager.Api.Data;
+using BookmarkManager.Api.Middleware;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,10 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>(); //register Flue
 
 
 var app = builder.Build();
+
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
+app.UseMiddleware<RequestLoggingMiddleware>();
 
 // Configure the HTTP request pipeline.
 
