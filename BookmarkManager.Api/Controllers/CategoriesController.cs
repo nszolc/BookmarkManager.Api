@@ -1,20 +1,22 @@
-﻿using BookmarkManager.Api.Data;
+﻿
+using BookmarkManager.Api.Data;
 using BookmarkManager.Api.DTOs.CategoryDto;
 using Microsoft.AspNetCore.Mvc;
 using BookmarkManager.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using BookmarkManager.Api.Exceptions;
 
+
 namespace BookmarkManager.Api.Controllers
 {
   [ApiController]
   [Route("api/[controller]")]
 
-  public class CategoriesController : ControllerBase
+  public class CategoriesController  : ControllerBase
   {
     private readonly AppDbContext _context;
 
-    public CategoriesController(AppDbContext context)
+    public CategoriesController (AppDbContext context)
     {
       _context = context;
     }
@@ -48,7 +50,8 @@ namespace BookmarkManager.Api.Controllers
 
       var category = new Category
       {
-        Name = dto.Name
+        Name = dto.Name,
+        Color = dto.Color 
       };
 
       _context.Categories.Add(category);
@@ -60,7 +63,7 @@ namespace BookmarkManager.Api.Controllers
         new { category.Id, category.Name }
       );
     }
- 
+
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteCategory(int id)
     {

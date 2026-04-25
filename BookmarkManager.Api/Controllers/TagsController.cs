@@ -1,4 +1,8 @@
-﻿using BookmarkManager.Api.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using BookmarkManager.Api.Data;
 using BookmarkManager.Api.DTOs.TagDto;
 using Microsoft.AspNetCore.Mvc;
 using BookmarkManager.Api.Models;
@@ -10,11 +14,11 @@ namespace BookmarkManager.Api.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 
-public class TagsController : ControllerBase
+public class TagsController  : ControllerBase
 {
     private readonly AppDbContext _context;
 
-    public TagsController(AppDbContext context)
+    public TagsController (AppDbContext context)
     {
         _context = context;
     }
