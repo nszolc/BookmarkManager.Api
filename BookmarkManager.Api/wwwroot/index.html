@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bookmark Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-card: #141414;
+    --bg-input: #111111;
+    --bg-hover: #1a1a1a;
+    --border: #222;
+    --border-hover: #333;
+    --border-focus: #2ecc71;
+    --text: #aaa;
+    --text-dim: #555;
+    --text-bright: #e0e0e0;
+    --green: #2ecc71;
+    --green-dim: rgba(46,204,113,0.12);
+    --green-border: rgba(46,204,113,0.3);
+    --red: #e74c3c;
+    --orange: #e67e22;
+    --pink: #e84393;
+    --cyan: #00cec9;
+    --purple: #a29bfe;
+    --yellow: #fdcb6e;
+    --blue: #74b9ff;
+    --font: 'Nunito', sans-serif;
+    --mono: 'Space Mono', monospace;
+    --radius: 6px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    min-height: 100vh;
+  }
+
+  .app {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 5rem;
+  }
+
+  /* ── Header ── */
+  header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--green);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    opacity: 0.8;
+  }
+  header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-bright);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+  header h1 span {
+    color: var(--green);
+  }
+  header p {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-top: 0.4rem;
+  }
+
+  /* ── Stats ── */
+  .stats {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .stat {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+  .stat strong {
+    color: var(--green);
+    font-family: var(--mono);
+    font-size: 1.1rem;
+  }
+  .stat-label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.1rem;
+  }
+
+  /* ── Toolbar ── */
+  .toolbar {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .search-box {
+    flex: 1;
+    min-width: 160px;
+    padding: 0.6rem 0.9rem;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-bright);
+    font-family: var(--font);
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-box:focus { border-color: var(--border-focus); }
+  .search-box::placeholder { color: var(--text-dim); }
+
+  select {
+    padding: 0.6rem 0.75rem;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 0.82rem;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-card);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .btn:hover { border-color: var(--border-hover); color: var(--text-bright); }
+  .btn-add {
+    background: var(--green);
+    border-color: var(--green);
+    color: #000;
+    font-weight: 700;
+  }
+  .btn-add:hover { background: #27ae60; border-color: #27ae60; color: #000; }
+  .btn-danger { color: var(--red); }
+  .btn-danger:hover { border-color: var(--red); }
+  .btn-sm { padding: 0.3rem 0.55rem; font-size: 0.72rem; }
+  .btn-ghost {
+    background: transparent;
+    border-color: transparent;
+    padding: 0.3rem 0.45rem;
+  }
+  .btn-ghost:hover { background: var(--bg-hover); border-color: transparent; }
+
+  .fav-filter {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* ── Bookmark cards ── */
+  .bm-list { display: flex; flex-direction: column; gap: 0.4rem; }
+
+  .bm-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.85rem 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .bm-card:hover {
+    border-color: var(--border-hover);
+    background: var(--bg-hover);
+  }
+
+  .bm-fav {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 0;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    transition: transform 0.12s;
+  }
+  .bm-fav:hover { transform: scale(1.25); }
+
+  .bm-body { flex: 1; min-width: 0; }
+
+  .bm-title {
+    font-weight: 700;
+    color: var(--text-bright);
+    font-size: 0.9rem;
+    margin-bottom: 0.1rem;
+  }
+  .bm-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .bm-title a:hover { color: var(--green); }
+
+  .bm-url {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    word-break: break-all;
+    letter-spacing: -0.02em;
+  }
+
+  .bm-desc {
+    font-size: 0.8rem;
+    color: var(--text);
+    margin-top: 0.25rem;
+    line-height: 1.5;
+  }
+
+  .bm-meta {
+    display: flex;
+    gap: 0.35rem;
+    margin-top: 0.4rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .cat-badge {
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 0.12rem 0.5rem;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    font-family: var(--mono);
+  }
+
+  .tag-badge {
+    font-size: 0.62rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    background: var(--green-dim);
+    color: var(--green);
+    border: 1px solid var(--green-border);
+    font-family: var(--mono);
+  }
+
+  .bm-actions {
+    display: flex;
+    gap: 0.2rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  /* ── Empty ── */
+  .empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+  }
+  .empty .ico { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+  /* ── Modal ── */
+  .modal-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .modal-bg.open { display: flex; }
+
+  .modal {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.75rem;
+    width: 90%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-bottom: 1.2rem;
+  }
+
+  .field { margin-bottom: 0.9rem; }
+  .field label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    margin-bottom: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+  }
+  .field input,
+  .field textarea,
+  .field select {
+    width: 100%;
+    padding: 0.55rem 0.8rem;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-bright);
+    font-family: var(--font);
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus {
+    border-color: var(--green);
+  }
+  .field textarea { resize: vertical; min-height: 65px; }
+
+  .tag-checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .tag-checks label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.8rem;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1.3rem;
+  }
+
+  /* ── Toast ── */
+  .toast {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: var(--radius);
+    font-size: 0.82rem;
+    font-weight: 600;
+    z-index: 200;
+    animation: slideUp 0.25s ease;
+    font-family: var(--font);
+  }
+  .toast.ok { background: var(--green); color: #000; }
+  .toast.err { background: var(--red); color: #fff; }
+
+  @keyframes slideUp {
+    from { transform: translateY(15px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .app { padding: 1.5rem 1rem 3rem; }
+    header h1 { font-size: 1.5rem; }
+    .bm-card { flex-direction: column; gap: 0.4rem; }
+    .bm-actions { align-self: flex-end; }
+    .stats { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <header>
+    <div class="logo">// bookmark manager</div>
+    <h1>My <span>Bookmarks</span></h1>
+    <p>Your personal link collection</p>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="toolbar">
+    <input type="text" class="search-box" id="searchInput" placeholder="Search bookmarks...">
+    <select id="catFilter"><option value="">All categories</option></select>
+    <label class="fav-filter">
+      <input type="checkbox" id="favFilter"> Favorites
+    </label>
+    <button class="btn btn-add" onclick="openModal()">+ Add</button>
+  </div>
+
+  <div class="bm-list" id="bmList"></div>
+
+</div>
+
+<!-- ── Modal ── -->
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <h2 id="modalTitle">Add Bookmark</h2>
+    <input type="hidden" id="editId">
+
+    <div class="field">
+      <label>Title</label>
+      <input type="text" id="fTitle" placeholder="e.g. Microsoft Learn C#">
+    </div>
+    <div class="field">
+      <label>URL</label>
+      <input type="url" id="fUrl" placeholder="https://...">
+    </div>
+    <div class="field">
+      <label>Description (optional)</label>
+      <textarea id="fDesc" placeholder="Short note about this link"></textarea>
+    </div>
+    <div class="field">
+      <label>Category</label>
+      <select id="fCat"></select>
+    </div>
+    <div class="field">
+      <label>Tags</label>
+      <div class="tag-checks" id="fTags"></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-add" onclick="saveBookmark()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// ZMIEŃ PORT NA SWÓJ — sprawdź w konsoli Ridera jaki masz
+// ============================================================
+const API = 'http://localhost:5127/api';
+
+// Category colors — rotation for visual variety
+const CAT_COLORS = [
+  { bg: 'rgba(46,204,113,0.12)', fg: '#2ecc71', border: 'rgba(46,204,113,0.3)' },
+  { bg: 'rgba(116,185,255,0.12)', fg: '#74b9ff', border: 'rgba(116,185,255,0.3)' },
+  { bg: 'rgba(232,67,147,0.12)', fg: '#e84393', border: 'rgba(232,67,147,0.3)' },
+  { bg: 'rgba(253,203,110,0.12)', fg: '#fdcb6e', border: 'rgba(253,203,110,0.3)' },
+  { bg: 'rgba(162,155,254,0.12)', fg: '#a29bfe', border: 'rgba(162,155,254,0.3)' },
+  { bg: 'rgba(0,206,201,0.12)', fg: '#00cec9', border: 'rgba(0,206,201,0.3)' },
+  { bg: 'rgba(230,126,34,0.12)', fg: '#e67e22', border: 'rgba(230,126,34,0.3)' },
+  { bg: 'rgba(231,76,60,0.12)', fg: '#e74c3c', border: 'rgba(231,76,60,0.3)' },
+];
+
+function getCatColor(id) {
+  return CAT_COLORS[(id - 1) % CAT_COLORS.length];
+}
+
+// State
+let categories = [];
+let tags = [];
+let bookmarks = [];
+
+// ============================================================
+// INIT
+// ============================================================
+async function init() {
+  try {
+    const [catRes, tagRes, bmRes] = await Promise.all([
+      fetch(`${API}/categories`),
+      fetch(`${API}/tags`),
+      fetch(`${API}/bookmarks`)
+    ]);
+
+    if (!catRes.ok || !tagRes.ok || !bmRes.ok) throw new Error('API error');
+
+    categories = await catRes.json();
+    tags = await tagRes.json();
+    bookmarks = await bmRes.json();
+
+    renderCatFilter();
+    renderTagChecks();
+    renderBookmarks();
+    renderStats();
+  } catch (err) {
+    toast('Cannot connect to API. Is the server running?', 'err');
+    console.error(err);
+  }
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderBookmarks() {
+  const list = document.getElementById('bmList');
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const catId = document.getElementById('catFilter').value;
+  const favOnly = document.getElementById('favFilter').checked;
+
+  let filtered = bookmarks;
+
+  if (search) {
+    filtered = filtered.filter(b =>
+      b.title.toLowerCase().includes(search) ||
+      b.url.toLowerCase().includes(search) ||
+      (b.description || '').toLowerCase().includes(search)
+    );
+  }
+  if (catId) filtered = filtered.filter(b => b.categoryId === parseInt(catId));
+  if (favOnly) filtered = filtered.filter(b => b.isFavorite);
+
+  if (filtered.length === 0) {
+    list.innerHTML = `
+      <div class="empty">
+        <div class="ico">${bookmarks.length === 0 ? '📭' : '🔍'}</div>
+        ${bookmarks.length === 0
+          ? 'No bookmarks yet. Click <strong>+ Add</strong> to create one.'
+          : 'No bookmarks match your filters.'}
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(b => {
+    const c = getCatColor(b.categoryId);
+    const tagHtml = (b.tags || []).map(t =>
+      `<span class="tag-badge">#${esc(t.name)}</span>`
+    ).join('');
+
+    return `
+      <div class="bm-card">
+        <button class="bm-fav" onclick="toggleFav(${b.id})" title="Toggle favorite">
+          ${b.isFavorite ? '⭐' : '☆'}
+        </button>
+        <div class="bm-body">
+          <div class="bm-title">
+            <a href="${esc(b.url)}" target="_blank" rel="noopener">${esc(b.title)}</a>
+          </div>
+          <div class="bm-url">${esc(b.url)}</div>
+          ${b.description ? `<div class="bm-desc">${esc(b.description)}</div>` : ''}
+          <div class="bm-meta">
+            <span class="cat-badge" style="background:${c.bg};color:${c.fg};border:1px solid ${c.border}">
+              ${esc(b.categoryName || 'Unknown')}
+            </span>
+            ${tagHtml}
+          </div>
+        </div>
+        <div class="bm-actions">
+          <button class="btn btn-ghost btn-sm" onclick="editBm(${b.id})" title="Edit">✏️</button>
+          <button class="btn btn-ghost btn-sm" onclick="deleteBm(${b.id})" title="Delete">🗑️</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function renderCatFilter() {
+  const sel = document.getElementById('catFilter');
+  const fSel = document.getElementById('fCat');
+
+  sel.innerHTML = '<option value="">All categories</option>' +
+    categories.map(c => `<option value="${c.id}">${c.name} (${c.bookmarkCount || c.bookmarksCount || 0})</option>`).join('');
+
+  fSel.innerHTML = categories.map(c =>
+    `<option value="${c.id}">${c.name}</option>`
+  ).join('');
+}
+
+function renderTagChecks() {
+  document.getElementById('fTags').innerHTML = tags.length
+    ? tags.map(t =>
+        `<label><input type="checkbox" value="${t.id}"> ${t.name}</label>`
+      ).join('')
+    : '<span style="color:var(--text-dim);font-size:0.8rem">No tags yet</span>';
+}
+
+function renderStats() {
+  const fav = bookmarks.filter(b => b.isFavorite).length;
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><strong>${bookmarks.length}</strong><span class="stat-label">bookmarks</span></div>
+    <div class="stat"><strong>${fav}</strong><span class="stat-label">favorites</span></div>
+    <div class="stat"><strong>${categories.length}</strong><span class="stat-label">categories</span></div>
+    <div class="stat"><strong>${tags.length}</strong><span class="stat-label">tags</span></div>
+  `;
+}
+
+// ============================================================
+// API CALLS
+// ============================================================
+async function saveBookmark() {
+  const editId = document.getElementById('editId').value;
+  const title = document.getElementById('fTitle').value.trim();
+  const url = document.getElementById('fUrl').value.trim();
+  const description = document.getElementById('fDesc').value.trim() || null;
+  const categoryId = parseInt(document.getElementById('fCat').value);
+  const tagIds = [...document.querySelectorAll('#fTags input:checked')].map(c => parseInt(c.value));
+
+  if (!title || !url) {
+    toast('Title and URL are required', 'err');
+    return;
+  }
+
+  const body = { title, url, description, categoryId, tagIds };
+
+  try {
+    let res;
+    if (editId) {
+      res = await fetch(`${API}/bookmarks/${editId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    } else {
+      res = await fetch(`${API}/bookmarks`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    }
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      toast(err.message || 'Something went wrong', 'err');
+      return;
+    }
+
+    toast(editId ? 'Bookmark updated' : 'Bookmark created', 'ok');
+    closeModal();
+    await reload();
+  } catch (err) {
+    toast('Network error', 'err');
+    console.error(err);
+  }
+}
+
+async function deleteBm(id) {
+  if (!confirm('Delete this bookmark?')) return;
+  try {
+    const res = await fetch(`${API}/bookmarks/${id}`, { method: 'DELETE' });
+    if (res.ok || res.status === 204) {
+      toast('Deleted', 'ok');
+      await reload();
+    }
+  } catch (err) {
+    toast('Failed to delete', 'err');
+  }
+}
+
+async function toggleFav(id) {
+  try {
+    const res = await fetch(`${API}/bookmarks/${id}/favorite`, { method: 'PATCH' });
+    if (res.ok) {
+      const updated = await res.json();
+      const idx = bookmarks.findIndex(b => b.id === id);
+      if (idx !== -1) bookmarks[idx] = updated;
+      renderBookmarks();
+      renderStats();
+    }
+  } catch (err) {
+    toast('Failed to update', 'err');
+  }
+}
+
+async function reload() {
+  const [catRes, bmRes] = await Promise.all([
+    fetch(`${API}/categories`),
+    fetch(`${API}/bookmarks`)
+  ]);
+  categories = await catRes.json();
+  bookmarks = await bmRes.json();
+  renderCatFilter();
+  renderBookmarks();
+  renderStats();
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function openModal(bm = null) {
+  document.getElementById('modalBg').classList.add('open');
+  document.getElementById('modalTitle').textContent = bm ? 'Edit Bookmark' : 'Add Bookmark';
+  document.getElementById('editId').value = bm ? bm.id : '';
+  document.getElementById('fTitle').value = bm ? bm.title : '';
+  document.getElementById('fUrl').value = bm ? bm.url : '';
+  document.getElementById('fDesc').value = bm ? (bm.description || '') : '';
+  document.getElementById('fCat').value = bm ? bm.categoryId : (categories[0]?.id || '');
+
+  document.querySelectorAll('#fTags input').forEach(cb => {
+    cb.checked = bm ? (bm.tags || []).some(t => t.id === parseInt(cb.value)) : false;
+  });
+}
+
+function closeModal() {
+  document.getElementById('modalBg').classList.remove('open');
+}
+
+function editBm(id) {
+  const bm = bookmarks.find(b => b.id === id);
+  if (bm) openModal(bm);
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+function esc(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function toast(msg, type = 'ok') {
+  const old = document.querySelector('.toast');
+  if (old) old.remove();
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// ============================================================
+// EVENTS
+// ============================================================
+document.getElementById('searchInput').addEventListener('input', renderBookmarks);
+document.getElementById('catFilter').addEventListener('change', renderBookmarks);
+document.getElementById('favFilter').addEventListener('change', renderBookmarks);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Start
+init();
+</script>
+</body>
+</html>
