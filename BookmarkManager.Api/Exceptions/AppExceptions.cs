@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace BookmarkManager.Api.Exceptions
 {
     public abstract class AppException : Exception
