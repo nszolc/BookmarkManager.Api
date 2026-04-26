@@ -13,6 +13,13 @@ builder.Services.AddControllers();
 
 builder.Services.AddValidatorsFromAssemblyContaining<Program>(); //register FluentValidation validators
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -20,11 +27,15 @@ var app = builder.Build();
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseMiddleware<RequestLoggingMiddleware>();
 
+app.UseCors("AllowAll");
+
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseStaticFiles();
 
 app.MapControllers();
 

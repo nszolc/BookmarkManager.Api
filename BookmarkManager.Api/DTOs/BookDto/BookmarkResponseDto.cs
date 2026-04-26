@@ -1,4 +1,6 @@
-﻿using BookmarkManager.Api.Models;
+﻿using TagDto = BookmarkManager.Api.DTOs.TagDto;
+using System;
+using System.Collections.Generic;
 
 namespace BookmarkManager.Api.DTOs.BookDto
 {
@@ -12,7 +14,7 @@ namespace BookmarkManager.Api.DTOs.BookDto
     int? CategoryId,
     string CategoryName,
     string CategoryColor,
-    List<TagDto> Tags
+    List<TagDto.TagDto> Tags
     );
    
     // to co zwraca klientowi
