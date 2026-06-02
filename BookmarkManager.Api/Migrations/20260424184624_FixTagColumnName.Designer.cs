@@ -4,6 +4,7 @@ using BookmarkManager.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookmarkManager.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260424184624_FixTagColumnName")]
+    partial class FixTagColumnName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,7 +57,7 @@ namespace BookmarkManager.Api.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Bookmarks", (string)null);
+                    b.ToTable("Bookmarks");
                 });
 
             modelBuilder.Entity("BookmarkManager.Api.Models.BookmarkTag", b =>
@@ -69,7 +72,7 @@ namespace BookmarkManager.Api.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("BookmarkTags", (string)null);
+                    b.ToTable("BookmarkTags");
                 });
 
             modelBuilder.Entity("BookmarkManager.Api.Models.Category", b =>
@@ -90,7 +93,7 @@ namespace BookmarkManager.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("BookmarkManager.Api.Models.Tag", b =>
@@ -107,7 +110,7 @@ namespace BookmarkManager.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags", (string)null);
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("BookmarkManager.Api.Models.Bookmark", b =>
