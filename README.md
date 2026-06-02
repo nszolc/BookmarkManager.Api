@@ -1,4 +1,4 @@
-# Bookmark Manager
+-# Bookmark Manager
 
 Personal bookmark manager with REST API and web frontend. Save, organize, tag and filter your links.
 
@@ -17,7 +17,7 @@ Personal bookmark manager with REST API and web frontend. Save, organize, tag an
 - Custom exception hierarchy with global error handling middleware
 - Request logging middleware (method, path, status code, response time)
 - Input validation with FluentValidation
-- Responsive dark-themed frontend with live API integration
+- Responsive dark-themed frontend with live API integration (separate pages for bookmarks, categories and tags)
 
 ## Getting Started
 
@@ -60,7 +60,9 @@ dotnet run
 ```
 BookmarkManager.Api/
 ├── wwwroot/
-│   └── index.html                  # Frontend (HTML/CSS/JS)
+│   ├── index.html                  # Bookmarks page (HTML/CSS/JS)
+│   ├── categories.html             # Categories management page
+│   └── tags.html                   # Tags management page
 ├── Controllers/
 │   ├── BookmarksController.cs      # Bookmark CRUD + filtering
 │   ├── CategoriesController.cs     # Category CRUD
