@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tags — Bookmark Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: {
+            950: '#0a0a0a',
+            900: '#141414',
+            850: '#1a1a1a',
+            input: '#111111',
+            border: '#222222',
+            'border-h': '#333333',
+          },
+          dim: '#555555',
+          accent: '#2ecc71',
+          'accent-h': '#27ae60',
+          danger: '#e74c3c',
+        },
+        fontFamily: {
+          sans: ['Nunito', 'sans-serif'],
+          mono: ['Space Mono', 'monospace'],
+        },
+        keyframes: {
+          slideUp: {
+            from: { transform: 'translateY(15px)', opacity: '0' },
+            to: { transform: 'translateY(0)', opacity: '1' },
+          },
+        },
+        animation: {
+          slideUp: 'slideUp 0.25s ease',
+        },
+      },
+    },
+  }
+</script>
+<style type="text/tailwindcss">
+  @layer base {
+    body { @apply bg-ink-950 text-neutral-400 font-sans min-h-screen; }
+  }
+  @layer components {
+    .btn {
+      @apply inline-flex items-center gap-1 px-4 py-2 border border-ink-border rounded-md bg-ink-900 text-neutral-400 text-sm font-semibold cursor-pointer transition whitespace-nowrap no-underline;
+    }
+    .btn:hover { @apply border-ink-border-h text-neutral-200; }
+    .btn-add { @apply bg-accent border-accent text-black font-bold; }
+    .btn-add:hover { @apply bg-accent-h border-accent-h text-black; }
+    .btn-sm { @apply px-2 py-1 text-xs; }
+    .btn-ghost { @apply bg-transparent border-transparent px-2 py-1.5; }
+    .btn-ghost:hover { @apply bg-ink-850 border-transparent; }
+    .btn-danger { @apply text-danger; }
+    .btn-danger:hover { @apply border-danger text-danger; }
+    .nav-link {
+      @apply flex items-center gap-2 px-3 py-2 rounded-md text-sm font-semibold text-neutral-400 no-underline transition-colors;
+    }
+    .nav-link:hover { @apply bg-ink-850 text-neutral-200; }
+    .nav-link-active {
+      @apply bg-accent/10 text-accent border border-accent/30;
+    }
+    .nav-link-active:hover { @apply bg-accent/20 text-accent; }
+    .nav-sublink {
+      @apply flex items-center gap-1.5 pl-5 pr-3 py-1 rounded text-[0.78rem] text-dim no-underline transition-colors;
+    }
+    .nav-sublink:hover { @apply text-accent bg-ink-850; }
+  }
+</style>
+</head>
+<body>
+
+<div class="md:flex md:min-h-screen">
+
+  <aside class="md:w-60 md:sticky md:top-0 md:h-screen md:flex-shrink-0 border-b md:border-b-0 md:border-r border-ink-border p-6 md:overflow-y-auto">
+    <div class="font-mono text-[0.7rem] text-accent tracking-[3px] uppercase mb-6 opacity-80">// bookmark manager</div>
+    <nav class="flex md:flex-col gap-1 flex-wrap">
+      <div class="md:mb-2">
+        <a href="/" class="nav-link">📚 Bookmarks</a>
+        <div class="hidden md:flex md:flex-col gap-0.5 mt-1">
+          <a href="/?action=add" class="nav-sublink">➕ Add new</a>
+          <a href="/?action=favorites" class="nav-sublink">⭐ Favorites only</a>
+        </div>
+      </div>
+      <div class="md:mb-2">
+        <a href="/categories.html" class="nav-link">📁 Categories</a>
+        <div class="hidden md:flex md:flex-col gap-0.5 mt-1">
+          <a href="/categories.html?action=add" class="nav-sublink">➕ Add new</a>
+          <a href="/categories.html?action=delete" class="nav-sublink">🗑️ Delete</a>
+        </div>
+      </div>
+      <div class="md:mb-2">
+        <a href="/tags.html" class="nav-link nav-link-active">🏷️ Tags</a>
+        <div class="hidden md:flex md:flex-col gap-0.5 mt-1">
+          <a href="/tags.html?action=add" class="nav-sublink">➕ Add new</a>
+          <a href="/tags.html?action=delete" class="nav-sublink">🗑️ Delete</a>
+        </div>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="flex-1 max-w-[720px] px-6 pt-10 pb-20 mx-auto md:mx-0 w-full">
+
+    <header class="mb-8 pb-6 border-b border-ink-border">
+      <h1 class="text-3xl font-extrabold text-neutral-200 -tracking-[0.03em] leading-tight">Manage <span class="text-accent">Tags</span></h1>
+      <p class="text-dim text-[0.85rem] mt-1">Add, view and remove your tags</p>
+    </header>
+
+    <div class="text-[0.7rem] text-dim uppercase tracking-[1.5px] font-bold mb-3">All tags</div>
+    <div class="flex flex-wrap gap-2" id="tagList"></div>
+
+    <div class="text-[0.7rem] text-dim uppercase tracking-[1.5px] font-bold mb-3 mt-6">Add new tag</div>
+    <div class="bg-ink-900 border border-ink-border rounded-md p-4 flex gap-2 items-center flex-wrap">
+      <input type="text" id="newTagName" placeholder="Tag name..." maxlength="50"
+        class="flex-1 min-w-[200px] px-3 py-2 bg-ink-input border border-ink-border rounded-md text-neutral-200 text-sm outline-none transition-colors focus:border-accent placeholder:text-dim">
+      <button class="btn btn-add" type="button" onclick="createTag()">+ Add</button>
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+const API = '/api';
+let tags = [];
+
+async function loadTags() {
+  try {
+    const res = await fetch(`${API}/tags`);
+    if (!res.ok) throw new Error('API error');
+    tags = await res.json();
+    renderList();
+  } catch (err) {
+    toast('Cannot connect to API. Is the server running?', 'err');
+    console.error(err);
+  }
+}
+
+function renderList() {
+  const list = document.getElementById('tagList');
+  if (tags.length === 0) {
+    list.innerHTML = '<div class="w-full text-dim text-sm text-center py-10 px-4 bg-ink-900 border border-dashed border-ink-border rounded-md">No tags yet. Add one below 👇</div>';
+    return;
+  }
+  list.innerHTML = tags.map(t => `
+    <div class="inline-flex items-center gap-1 px-3 py-2 bg-accent/10 border border-accent/30 rounded-md transition-colors hover:bg-accent/20">
+      <span class="text-accent font-mono text-[0.82rem] font-semibold before:content-['#'] before:opacity-60">${esc(t.name)}</span>
+      <button class="btn btn-ghost btn-sm btn-danger" onclick="deleteTag(${t.id}, '${esc(t.name).replace(/'/g, "\\'")}')" title="Delete tag">×</button>
+    </div>
+  `).join('');
+}
+
+async function createTag() {
+  const input = document.getElementById('newTagName');
+  const name = input.value.trim();
+
+  if (!name) {
+    toast('Tag name cannot be empty', 'err');
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API}/tags`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      toast(err.message || `Failed to create tag (${res.status})`, 'err');
+      return;
+    }
+
+    input.value = '';
+    toast(`Tag "${name}" created`, 'ok');
+    await loadTags();
+  } catch (err) {
+    toast('Network error', 'err');
+    console.error(err);
+  }
+}
+
+async function deleteTag(id, name) {
+  if (!confirm(`Delete tag "${name}"? It will be removed from all bookmarks.`)) return;
+
+  try {
+    const res = await fetch(`${API}/tags/${id}`, { method: 'DELETE' });
+
+    if (!res.ok && res.status !== 204) {
+      const err = await res.json().catch(() => ({}));
+      toast(err.message || `Failed to delete tag (${res.status})`, 'err');
+      return;
+    }
+
+    toast(`Tag "${name}" deleted`, 'ok');
+    await loadTags();
+  } catch (err) {
+    toast('Network error', 'err');
+    console.error(err);
+  }
+}
+
+function esc(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function toast(msg, type = 'ok') {
+  const old = document.querySelector('[data-toast]');
+  if (old) old.remove();
+  const t = document.createElement('div');
+  t.setAttribute('data-toast', '');
+  const color = type === 'ok' ? 'bg-accent text-black' : 'bg-danger text-white';
+  t.className = `fixed bottom-6 right-6 px-5 py-3 rounded-md text-sm font-semibold z-[200] animate-slideUp font-sans ${color}`;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+document.getElementById('newTagName').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); createTag(); }
+});
+
+function handleQueryAction() {
+  const params = new URLSearchParams(window.location.search);
+  const action = params.get('action');
+  if (!action) return;
+
+  history.replaceState({}, '', window.location.pathname);
+
+  if (action === 'add') {
+    const input = document.getElementById('newTagName');
+    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => input.focus(), 300);
+  } else if (action === 'delete') {
+    document.getElementById('tagList').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+(async () => {
+  await loadTags();
+  handleQueryAction();
+})();
+</script>
+</body>
+</html>

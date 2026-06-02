@@ -5,456 +5,168 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bookmark Manager</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0a0a0a;
-    --bg-card: #141414;
-    --bg-input: #111111;
-    --bg-hover: #1a1a1a;
-    --border: #222;
-    --border-hover: #333;
-    --border-focus: #2ecc71;
-    --text: #aaa;
-    --text-dim: #555;
-    --text-bright: #e0e0e0;
-    --green: #2ecc71;
-    --green-dim: rgba(46,204,113,0.12);
-    --green-border: rgba(46,204,113,0.3);
-    --red: #e74c3c;
-    --orange: #e67e22;
-    --pink: #e84393;
-    --cyan: #00cec9;
-    --purple: #a29bfe;
-    --yellow: #fdcb6e;
-    --blue: #74b9ff;
-    --font: 'Nunito', sans-serif;
-    --mono: 'Space Mono', monospace;
-    --radius: 6px;
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: {
+            950: '#0a0a0a',
+            900: '#141414',
+            850: '#1a1a1a',
+            input: '#111111',
+            border: '#222222',
+            'border-h': '#333333',
+          },
+          dim: '#555555',
+          accent: '#2ecc71',
+          'accent-h': '#27ae60',
+          danger: '#e74c3c',
+        },
+        fontFamily: {
+          sans: ['Nunito', 'sans-serif'],
+          mono: ['Space Mono', 'monospace'],
+        },
+        keyframes: {
+          slideUp: {
+            from: { transform: 'translateY(15px)', opacity: '0' },
+            to: { transform: 'translateY(0)', opacity: '1' },
+          },
+        },
+        animation: {
+          slideUp: 'slideUp 0.25s ease',
+        },
+      },
+    },
   }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font);
-    min-height: 100vh;
+</script>
+<style type="text/tailwindcss">
+  @layer base {
+    body { @apply bg-ink-950 text-neutral-400 font-sans min-h-screen; }
   }
-
-  .app {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 2.5rem 1.5rem 5rem;
-  }
-
-  /* ── Header ── */
-  header {
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .logo {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    color: var(--green);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-bottom: 0.4rem;
-    opacity: 0.8;
-  }
-  header h1 {
-    font-size: 2rem;
-    font-weight: 800;
-    color: var(--text-bright);
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-  }
-  header h1 span {
-    color: var(--green);
-  }
-  header p {
-    color: var(--text-dim);
-    font-size: 0.85rem;
-    margin-top: 0.4rem;
-  }
-
-  /* ── Stats ── */
-  .stats {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-  }
-  .stat {
-    font-size: 0.8rem;
-    color: var(--text-dim);
-  }
-  .stat strong {
-    color: var(--green);
-    font-family: var(--mono);
-    font-size: 1.1rem;
-  }
-  .stat-label {
-    display: block;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 0.1rem;
-  }
-
-  /* ── Toolbar ── */
-  .toolbar {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .search-box {
-    flex: 1;
-    min-width: 160px;
-    padding: 0.6rem 0.9rem;
-    background: var(--bg-input);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    color: var(--text-bright);
-    font-family: var(--font);
-    font-size: 0.85rem;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .search-box:focus { border-color: var(--border-focus); }
-  .search-box::placeholder { color: var(--text-dim); }
-
-  select {
-    padding: 0.6rem 0.75rem;
-    background: var(--bg-input);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    color: var(--text);
-    font-family: var(--font);
-    font-size: 0.82rem;
-    outline: none;
-    cursor: pointer;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.6rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--bg-card);
-    color: var(--text);
-    font-family: var(--font);
-    font-size: 0.82rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-  .btn:hover { border-color: var(--border-hover); color: var(--text-bright); }
-  .btn-add {
-    background: var(--green);
-    border-color: var(--green);
-    color: #000;
-    font-weight: 700;
-  }
-  .btn-add:hover { background: #27ae60; border-color: #27ae60; color: #000; }
-  .btn-danger { color: var(--red); }
-  .btn-danger:hover { border-color: var(--red); }
-  .btn-sm { padding: 0.3rem 0.55rem; font-size: 0.72rem; }
-  .btn-ghost {
-    background: transparent;
-    border-color: transparent;
-    padding: 0.3rem 0.45rem;
-  }
-  .btn-ghost:hover { background: var(--bg-hover); border-color: transparent; }
-
-  .fav-filter {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-size: 0.8rem;
-    color: var(--text-dim);
-    cursor: pointer;
-    user-select: none;
-  }
-
-  /* ── Bookmark cards ── */
-  .bm-list { display: flex; flex-direction: column; gap: 0.4rem; }
-
-  .bm-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 0.85rem 1rem;
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    transition: border-color 0.2s, background 0.2s;
-  }
-  .bm-card:hover {
-    border-color: var(--border-hover);
-    background: var(--bg-hover);
-  }
-
-  .bm-fav {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.1rem;
-    line-height: 1;
-    padding: 0;
-    flex-shrink: 0;
-    margin-top: 0.15rem;
-    transition: transform 0.12s;
-  }
-  .bm-fav:hover { transform: scale(1.25); }
-
-  .bm-body { flex: 1; min-width: 0; }
-
-  .bm-title {
-    font-weight: 700;
-    color: var(--text-bright);
-    font-size: 0.9rem;
-    margin-bottom: 0.1rem;
-  }
-  .bm-title a {
-    color: inherit;
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-  .bm-title a:hover { color: var(--green); }
-
-  .bm-url {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    color: var(--text-dim);
-    word-break: break-all;
-    letter-spacing: -0.02em;
-  }
-
-  .bm-desc {
-    font-size: 0.8rem;
-    color: var(--text);
-    margin-top: 0.25rem;
-    line-height: 1.5;
-  }
-
-  .bm-meta {
-    display: flex;
-    gap: 0.35rem;
-    margin-top: 0.4rem;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .cat-badge {
-    font-size: 0.62rem;
-    font-weight: 700;
-    padding: 0.12rem 0.5rem;
-    border-radius: 3px;
-    text-transform: uppercase;
-    letter-spacing: 0.7px;
-    font-family: var(--mono);
-  }
-
-  .tag-badge {
-    font-size: 0.62rem;
-    padding: 0.1rem 0.4rem;
-    border-radius: 3px;
-    background: var(--green-dim);
-    color: var(--green);
-    border: 1px solid var(--green-border);
-    font-family: var(--mono);
-  }
-
-  .bm-actions {
-    display: flex;
-    gap: 0.2rem;
-    flex-shrink: 0;
-    margin-top: 0.1rem;
-  }
-
-  /* ── Empty ── */
-  .empty {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: var(--text-dim);
-    font-size: 0.9rem;
-  }
-  .empty .ico { font-size: 2.5rem; margin-bottom: 0.75rem; }
-
-  /* ── Modal ── */
-  .modal-bg {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(4px);
-  }
-  .modal-bg.open { display: flex; }
-
-  .modal {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 1.75rem;
-    width: 90%;
-    max-width: 480px;
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  .modal h2 {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--text-bright);
-    margin-bottom: 1.2rem;
-  }
-
-  .field { margin-bottom: 0.9rem; }
-  .field label {
-    display: block;
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: var(--text-dim);
-    margin-bottom: 0.3rem;
-    text-transform: uppercase;
-    letter-spacing: 0.7px;
-  }
-  .field input,
-  .field textarea,
-  .field select {
-    width: 100%;
-    padding: 0.55rem 0.8rem;
-    background: var(--bg-input);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    color: var(--text-bright);
-    font-family: var(--font);
-    font-size: 0.85rem;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .field input:focus,
-  .field textarea:focus,
-  .field select:focus {
-    border-color: var(--green);
-  }
-  .field textarea { resize: vertical; min-height: 65px; }
-
-  .tag-checks {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-  .tag-checks label {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    text-transform: none;
-    letter-spacing: 0;
-    font-size: 0.8rem;
-    color: var(--text);
-    cursor: pointer;
-  }
-
-  .modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    margin-top: 1.3rem;
-  }
-
-  /* ── Toast ── */
-  .toast {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    padding: 0.7rem 1.2rem;
-    border-radius: var(--radius);
-    font-size: 0.82rem;
-    font-weight: 600;
-    z-index: 200;
-    animation: slideUp 0.25s ease;
-    font-family: var(--font);
-  }
-  .toast.ok { background: var(--green); color: #000; }
-  .toast.err { background: var(--red); color: #fff; }
-
-  @keyframes slideUp {
-    from { transform: translateY(15px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-
-  /* ── Responsive ── */
-  @media (max-width: 640px) {
-    .app { padding: 1.5rem 1rem 3rem; }
-    header h1 { font-size: 1.5rem; }
-    .bm-card { flex-direction: column; gap: 0.4rem; }
-    .bm-actions { align-self: flex-end; }
-    .stats { gap: 1rem; }
+  @layer components {
+    .btn {
+      @apply inline-flex items-center gap-1 px-4 py-2 border border-ink-border rounded-md bg-ink-900 text-neutral-400 text-sm font-semibold cursor-pointer transition whitespace-nowrap no-underline;
+    }
+    .btn:hover { @apply border-ink-border-h text-neutral-200; }
+    .btn-add { @apply bg-accent border-accent text-black font-bold; }
+    .btn-add:hover { @apply bg-accent-h border-accent-h text-black; }
+    .btn-danger { @apply text-danger; }
+    .btn-danger:hover { @apply border-danger; }
+    .btn-sm { @apply px-2 py-1 text-xs; }
+    .btn-ghost { @apply bg-transparent border-transparent px-1.5 py-1; }
+    .btn-ghost:hover { @apply bg-ink-850 border-transparent; }
+    .input-base {
+      @apply w-full px-3 py-2 bg-ink-input border border-ink-border rounded-md text-neutral-200 text-sm outline-none transition-colors;
+    }
+    .input-base:focus { @apply border-accent; }
+    .input-base::placeholder { @apply text-dim; }
+    .nav-link {
+      @apply flex items-center gap-2 px-3 py-2 rounded-md text-sm font-semibold text-neutral-400 no-underline transition-colors;
+    }
+    .nav-link:hover { @apply bg-ink-850 text-neutral-200; }
+    .nav-link-active {
+      @apply bg-accent/10 text-accent border border-accent/30;
+    }
+    .nav-link-active:hover { @apply bg-accent/20 text-accent; }
+    .nav-sublink {
+      @apply flex items-center gap-1.5 pl-5 pr-3 py-1 rounded text-[0.78rem] text-dim no-underline transition-colors;
+    }
+    .nav-sublink:hover { @apply text-accent bg-ink-850; }
   }
 </style>
 </head>
 <body>
 
-<div class="app">
+<div class="md:flex md:min-h-screen">
 
-  <header>
-    <div class="logo">// bookmark manager</div>
-    <h1>My <span>Bookmarks</span></h1>
-    <p>Your personal link collection</p>
-  </header>
+  <aside class="md:w-60 md:sticky md:top-0 md:h-screen md:flex-shrink-0 border-b md:border-b-0 md:border-r border-ink-border p-6 md:overflow-y-auto">
+    <div class="font-mono text-[0.7rem] text-accent tracking-[3px] uppercase mb-6 opacity-80">// bookmark manager</div>
+    <nav class="flex md:flex-col gap-1 flex-wrap">
+      <div class="md:mb-2">
+        <a href="/" class="nav-link nav-link-active">📚 Bookmarks</a>
+        <div class="hidden md:flex md:flex-col gap-0.5 mt-1">
+          <a href="/?action=add" class="nav-sublink">➕ Add new</a>
+          <a href="/?action=favorites" class="nav-sublink">⭐ Favorites only</a>
+        </div>
+      </div>
+      <div class="md:mb-2">
+        <a href="/categories.html" class="nav-link">📁 Categories</a>
+        <div class="hidden md:flex md:flex-col gap-0.5 mt-1">
+          <a href="/categories.html?action=add" class="nav-sublink">➕ Add new</a>
+          <a href="/categories.html?action=delete" class="nav-sublink">🗑️ Delete</a>
+        </div>
+      </div>
+      <div class="md:mb-2">
+        <a href="/tags.html" class="nav-link">🏷️ Tags</a>
+        <div class="hidden md:flex md:flex-col gap-0.5 mt-1">
+          <a href="/tags.html?action=add" class="nav-sublink">➕ Add new</a>
+          <a href="/tags.html?action=delete" class="nav-sublink">🗑️ Delete</a>
+        </div>
+      </div>
+    </nav>
+  </aside>
 
-  <div class="stats" id="stats"></div>
+  <main class="flex-1 max-w-[880px] px-6 pt-10 pb-20 mx-auto md:mx-0 w-full">
 
-  <div class="toolbar">
-    <input type="text" class="search-box" id="searchInput" placeholder="Search bookmarks...">
-    <select id="catFilter"><option value="">All categories</option></select>
-    <label class="fav-filter">
-      <input type="checkbox" id="favFilter"> Favorites
-    </label>
-    <button class="btn btn-add" onclick="openModal()">+ Add</button>
-  </div>
+    <header class="mb-8 pb-6 border-b border-ink-border">
+      <h1 class="text-3xl font-extrabold text-neutral-200 -tracking-[0.03em] leading-tight">My <span class="text-accent">Bookmarks</span></h1>
+      <p class="text-dim text-[0.85rem] mt-1">Your personal link collection</p>
+    </header>
 
-  <div class="bm-list" id="bmList"></div>
+    <div class="flex gap-8 mb-6 flex-wrap" id="stats"></div>
+
+    <div class="flex gap-2 mb-6 flex-wrap items-center">
+      <input type="text" id="searchInput" placeholder="Search bookmarks..."
+        class="flex-1 min-w-[160px] px-3 py-2 bg-ink-input border border-ink-border rounded-md text-neutral-200 text-sm outline-none transition-colors focus:border-accent placeholder:text-dim">
+      <button class="btn" onclick="applyFilters()" title="Search">🔍 Search</button>
+      <select id="catFilter" class="px-3 py-2 bg-ink-input border border-ink-border rounded-md text-neutral-400 text-sm outline-none cursor-pointer">
+        <option value="">All categories</option>
+      </select>
+      <button class="btn btn-add" onclick="openModal()">+ Add</button>
+    </div>
+
+    <div id="favBadge" class="hidden mb-4 inline-flex items-center gap-2 px-3 py-1.5 bg-accent/10 border border-accent/30 rounded-md text-accent text-xs font-semibold">
+      ⭐ Showing favorites only
+      <button onclick="clearFavorites()" class="text-accent hover:text-accent-h" title="Clear filter">×</button>
+    </div>
+
+    <div class="flex flex-col gap-1" id="bmList"></div>
+
+  </main>
 
 </div>
 
 <!-- ── Modal ── -->
-<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <h2 id="modalTitle">Add Bookmark</h2>
+<div class="hidden fixed inset-0 bg-black/70 z-[100] items-center justify-center backdrop-blur-sm data-[open=true]:flex"
+     id="modalBg" data-open="false" onclick="if(event.target===this)closeModal()">
+  <div class="bg-ink-900 border border-ink-border rounded-[10px] p-7 w-[90%] max-w-[480px] max-h-[90vh] overflow-y-auto">
+    <h2 id="modalTitle" class="text-[1.05rem] font-bold text-neutral-200 mb-5">Add Bookmark</h2>
     <input type="hidden" id="editId">
 
-    <div class="field">
-      <label>Title</label>
-      <input type="text" id="fTitle" placeholder="e.g. Microsoft Learn C#">
+    <div class="mb-3">
+      <label class="block text-xs font-semibold text-dim mb-1 uppercase tracking-wider">Title</label>
+      <input type="text" id="fTitle" placeholder="e.g. Microsoft Learn C#" class="input-base">
     </div>
-    <div class="field">
-      <label>URL</label>
-      <input type="url" id="fUrl" placeholder="https://...">
+    <div class="mb-3">
+      <label class="block text-xs font-semibold text-dim mb-1 uppercase tracking-wider">URL</label>
+      <input type="url" id="fUrl" placeholder="https://..." class="input-base">
     </div>
-    <div class="field">
-      <label>Description (optional)</label>
-      <textarea id="fDesc" placeholder="Short note about this link"></textarea>
+    <div class="mb-3">
+      <label class="block text-xs font-semibold text-dim mb-1 uppercase tracking-wider">Description (optional)</label>
+      <textarea id="fDesc" placeholder="Short note about this link" class="input-base resize-y min-h-[65px]"></textarea>
     </div>
-    <div class="field">
-      <label>Category</label>
-      <select id="fCat"></select>
+    <div class="mb-3">
+      <label class="block text-xs font-semibold text-dim mb-1 uppercase tracking-wider">Category</label>
+      <select id="fCat" class="input-base"></select>
     </div>
-    <div class="field">
-      <label>Tags</label>
-      <div class="tag-checks" id="fTags"></div>
+    <div class="mb-3">
+      <label class="block text-xs font-semibold text-dim mb-1 uppercase tracking-wider">Tags</label>
+      <div class="flex flex-wrap gap-2" id="fTags"></div>
     </div>
 
-    <div class="modal-actions">
+    <div class="flex justify-end gap-2 mt-5">
       <button class="btn" onclick="closeModal()">Cancel</button>
       <button class="btn btn-add" onclick="saveBookmark()">Save</button>
     </div>
@@ -462,116 +174,126 @@
 </div>
 
 <script>
-// ============================================================
-// ZMIEŃ PORT NA SWÓJ — sprawdź w konsoli Ridera jaki masz
-// ============================================================
-const API = 'http://localhost:5127/api';
+const API = '/api';
 
-// Category colors — rotation for visual variety
-const CAT_COLORS = [
-  { bg: 'rgba(46,204,113,0.12)', fg: '#2ecc71', border: 'rgba(46,204,113,0.3)' },
-  { bg: 'rgba(116,185,255,0.12)', fg: '#74b9ff', border: 'rgba(116,185,255,0.3)' },
-  { bg: 'rgba(232,67,147,0.12)', fg: '#e84393', border: 'rgba(232,67,147,0.3)' },
-  { bg: 'rgba(253,203,110,0.12)', fg: '#fdcb6e', border: 'rgba(253,203,110,0.3)' },
-  { bg: 'rgba(162,155,254,0.12)', fg: '#a29bfe', border: 'rgba(162,155,254,0.3)' },
-  { bg: 'rgba(0,206,201,0.12)', fg: '#00cec9', border: 'rgba(0,206,201,0.3)' },
-  { bg: 'rgba(230,126,34,0.12)', fg: '#e67e22', border: 'rgba(230,126,34,0.3)' },
-  { bg: 'rgba(231,76,60,0.12)', fg: '#e74c3c', border: 'rgba(231,76,60,0.3)' },
-];
-
-function getCatColor(id) {
-  return CAT_COLORS[(id - 1) % CAT_COLORS.length];
+function hexToRgba(hex, alpha) {
+  const h = (hex || '').replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  if (full.length !== 6) return `rgba(107,114,128,${alpha})`; // fallback grey
+  const r = parseInt(full.slice(0, 2), 16);
+  const g = parseInt(full.slice(2, 4), 16);
+  const b = parseInt(full.slice(4, 6), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
 }
 
-// State
+function catBadgeStyle(hex) {
+  const color = hex || '#6b7280';
+  return `background:${hexToRgba(color, 0.12)};color:${color};border:1px solid ${hexToRgba(color, 0.3)}`;
+}
+
 let categories = [];
 let tags = [];
 let bookmarks = [];
+let favOnly = false;
 
-// ============================================================
-// INIT
-// ============================================================
+function setFavOnly(value) {
+  favOnly = value;
+  document.getElementById('favBadge').classList.toggle('hidden', !favOnly);
+}
+
+function clearFavorites() {
+  setFavOnly(false);
+  applyFilters();
+}
+
 async function init() {
   try {
-    const [catRes, tagRes, bmRes] = await Promise.all([
+    const [catRes, tagRes] = await Promise.all([
       fetch(`${API}/categories`),
-      fetch(`${API}/tags`),
-      fetch(`${API}/bookmarks`)
+      fetch(`${API}/tags`)
     ]);
 
-    if (!catRes.ok || !tagRes.ok || !bmRes.ok) throw new Error('API error');
+    if (!catRes.ok || !tagRes.ok) throw new Error('API error');
 
     categories = await catRes.json();
     tags = await tagRes.json();
-    bookmarks = await bmRes.json();
 
     renderCatFilter();
     renderTagChecks();
-    renderBookmarks();
-    renderStats();
+    await applyFilters();
   } catch (err) {
     toast('Cannot connect to API. Is the server running?', 'err');
     console.error(err);
   }
 }
 
-// ============================================================
-// RENDER
-// ============================================================
-function renderBookmarks() {
-  const list = document.getElementById('bmList');
-  const search = document.getElementById('searchInput').value.toLowerCase();
+async function applyFilters() {
+  const search = document.getElementById('searchInput').value.trim();
   const catId = document.getElementById('catFilter').value;
-  const favOnly = document.getElementById('favFilter').checked;
 
-  let filtered = bookmarks;
+  const params = new URLSearchParams();
+  if (search) params.set('search', search);
+  if (catId) params.set('categoryId', catId);
+  if (favOnly) params.set('favorite', 'true');
 
-  if (search) {
-    filtered = filtered.filter(b =>
-      b.title.toLowerCase().includes(search) ||
-      b.url.toLowerCase().includes(search) ||
-      (b.description || '').toLowerCase().includes(search)
-    );
+  const url = params.toString() ? `${API}/bookmarks?${params}` : `${API}/bookmarks`;
+
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`API error (${res.status})`);
+    bookmarks = await res.json();
+    renderBookmarkList();
+    renderStats();
+  } catch (err) {
+    toast('Failed to load bookmarks', 'err');
+    console.error(err);
   }
-  if (catId) filtered = filtered.filter(b => b.categoryId === parseInt(catId));
-  if (favOnly) filtered = filtered.filter(b => b.isFavorite);
+}
 
-  if (filtered.length === 0) {
+function renderBookmarkList() {
+  const list = document.getElementById('bmList');
+  const hasFilters = !!(
+    document.getElementById('searchInput').value.trim() ||
+    document.getElementById('catFilter').value ||
+    favOnly
+  );
+
+  if (bookmarks.length === 0) {
     list.innerHTML = `
-      <div class="empty">
-        <div class="ico">${bookmarks.length === 0 ? '📭' : '🔍'}</div>
-        ${bookmarks.length === 0
-          ? 'No bookmarks yet. Click <strong>+ Add</strong> to create one.'
-          : 'No bookmarks match your filters.'}
+      <div class="text-center py-16 px-8 text-dim text-sm">
+        <div class="text-4xl mb-3">${hasFilters ? '🔍' : '📭'}</div>
+        ${hasFilters
+          ? 'No bookmarks match your filters.'
+          : 'No bookmarks yet. Click <strong>+ Add</strong> to create one.'}
       </div>`;
     return;
   }
 
-  list.innerHTML = filtered.map(b => {
-    const c = getCatColor(b.categoryId);
+  list.innerHTML = bookmarks.map(b => {
+    const catStyle = catBadgeStyle(b.categoryColor);
     const tagHtml = (b.tags || []).map(t =>
-      `<span class="tag-badge">#${esc(t.name)}</span>`
+      `<span class="text-[0.62rem] px-1.5 py-0.5 rounded-sm bg-accent/10 text-accent border border-accent/30 font-mono">#${esc(t.name)}</span>`
     ).join('');
 
     return `
-      <div class="bm-card">
-        <button class="bm-fav" onclick="toggleFav(${b.id})" title="Toggle favorite">
+      <div class="bg-ink-900 border border-ink-border rounded-md px-4 py-3 flex items-start gap-3 transition-colors hover:border-ink-border-h hover:bg-ink-850">
+        <button class="bg-transparent border-none cursor-pointer text-lg leading-none p-0 flex-shrink-0 mt-0.5 transition-transform hover:scale-125" onclick="toggleFav(${b.id})" title="Toggle favorite">
           ${b.isFavorite ? '⭐' : '☆'}
         </button>
-        <div class="bm-body">
-          <div class="bm-title">
-            <a href="${esc(b.url)}" target="_blank" rel="noopener">${esc(b.title)}</a>
+        <div class="flex-1 min-w-0">
+          <div class="font-bold text-neutral-200 text-[0.9rem] mb-0.5">
+            <a href="${esc(b.url)}" target="_blank" rel="noopener" class="text-inherit no-underline transition-colors hover:text-accent">${esc(b.title)}</a>
           </div>
-          <div class="bm-url">${esc(b.url)}</div>
-          ${b.description ? `<div class="bm-desc">${esc(b.description)}</div>` : ''}
-          <div class="bm-meta">
-            <span class="cat-badge" style="background:${c.bg};color:${c.fg};border:1px solid ${c.border}">
+          <div class="font-mono text-[0.65rem] text-dim break-all -tracking-[0.02em]">${esc(b.url)}</div>
+          ${b.description ? `<div class="text-[0.8rem] text-neutral-400 mt-1 leading-normal">${esc(b.description)}</div>` : ''}
+          <div class="flex gap-1.5 mt-2 flex-wrap items-center">
+            <span class="text-[0.62rem] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider font-mono" style="${catStyle}">
               ${esc(b.categoryName || 'Unknown')}
             </span>
             ${tagHtml}
           </div>
         </div>
-        <div class="bm-actions">
+        <div class="flex gap-1 flex-shrink-0 mt-0.5">
           <button class="btn btn-ghost btn-sm" onclick="editBm(${b.id})" title="Edit">✏️</button>
           <button class="btn btn-ghost btn-sm" onclick="deleteBm(${b.id})" title="Delete">🗑️</button>
         </div>
@@ -594,24 +316,21 @@ function renderCatFilter() {
 function renderTagChecks() {
   document.getElementById('fTags').innerHTML = tags.length
     ? tags.map(t =>
-        `<label><input type="checkbox" value="${t.id}"> ${t.name}</label>`
+        `<label class="inline-flex items-center gap-1 text-sm text-neutral-400 cursor-pointer normal-case tracking-normal"><input type="checkbox" value="${t.id}"> ${esc(t.name)}</label>`
       ).join('')
-    : '<span style="color:var(--text-dim);font-size:0.8rem">No tags yet</span>';
+    : '<span class="text-dim text-sm">No tags yet. <a href="/tags.html" class="text-accent">Create one →</a></span>';
 }
 
 function renderStats() {
   const fav = bookmarks.filter(b => b.isFavorite).length;
   document.getElementById('stats').innerHTML = `
-    <div class="stat"><strong>${bookmarks.length}</strong><span class="stat-label">bookmarks</span></div>
-    <div class="stat"><strong>${fav}</strong><span class="stat-label">favorites</span></div>
-    <div class="stat"><strong>${categories.length}</strong><span class="stat-label">categories</span></div>
-    <div class="stat"><strong>${tags.length}</strong><span class="stat-label">tags</span></div>
+    <div class="text-xs text-dim"><strong class="text-accent font-mono text-lg">${bookmarks.length}</strong><span class="block text-[0.7rem] uppercase tracking-wider mt-0.5">bookmarks</span></div>
+    <div class="text-xs text-dim"><strong class="text-accent font-mono text-lg">${fav}</strong><span class="block text-[0.7rem] uppercase tracking-wider mt-0.5">favorites</span></div>
+    <div class="text-xs text-dim"><strong class="text-accent font-mono text-lg">${categories.length}</strong><span class="block text-[0.7rem] uppercase tracking-wider mt-0.5">categories</span></div>
+    <div class="text-xs text-dim"><strong class="text-accent font-mono text-lg">${tags.length}</strong><span class="block text-[0.7rem] uppercase tracking-wider mt-0.5">tags</span></div>
   `;
 }
 
-// ============================================================
-// API CALLS
-// ============================================================
 async function saveBookmark() {
   const editId = document.getElementById('editId').value;
   const title = document.getElementById('fTitle').value.trim();
@@ -665,6 +384,9 @@ async function deleteBm(id) {
     if (res.ok || res.status === 204) {
       toast('Deleted', 'ok');
       await reload();
+    } else {
+      const err = await res.json().catch(() => ({}));
+      toast(err.message || `Failed to delete (${res.status})`, 'err');
     }
   } catch (err) {
     toast('Failed to delete', 'err');
@@ -675,11 +397,18 @@ async function toggleFav(id) {
   try {
     const res = await fetch(`${API}/bookmarks/${id}/favorite`, { method: 'PATCH' });
     if (res.ok) {
-      const updated = await res.json();
-      const idx = bookmarks.findIndex(b => b.id === id);
-      if (idx !== -1) bookmarks[idx] = updated;
-      renderBookmarks();
-      renderStats();
+      if (favOnly) {
+        await applyFilters();
+      } else {
+        const updated = await res.json();
+        const idx = bookmarks.findIndex(b => b.id === id);
+        if (idx !== -1) bookmarks[idx] = updated;
+        renderBookmarkList();
+        renderStats();
+      }
+    } else {
+      const err = await res.json().catch(() => ({}));
+      toast(err.message || `Failed to update (${res.status})`, 'err');
     }
   } catch (err) {
     toast('Failed to update', 'err');
@@ -687,22 +416,20 @@ async function toggleFav(id) {
 }
 
 async function reload() {
-  const [catRes, bmRes] = await Promise.all([
-    fetch(`${API}/categories`),
-    fetch(`${API}/bookmarks`)
-  ]);
+  const catRes = await fetch(`${API}/categories`);
   categories = await catRes.json();
-  bookmarks = await bmRes.json();
   renderCatFilter();
-  renderBookmarks();
-  renderStats();
+  await applyFilters();
 }
 
-// ============================================================
-// MODAL
-// ============================================================
+let searchDebounce;
+function onSearchInput() {
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(applyFilters, 300);
+}
+
 function openModal(bm = null) {
-  document.getElementById('modalBg').classList.add('open');
+  document.getElementById('modalBg').setAttribute('data-open', 'true');
   document.getElementById('modalTitle').textContent = bm ? 'Edit Bookmark' : 'Add Bookmark';
   document.getElementById('editId').value = bm ? bm.id : '';
   document.getElementById('fTitle').value = bm ? bm.title : '';
@@ -716,7 +443,7 @@ function openModal(bm = null) {
 }
 
 function closeModal() {
-  document.getElementById('modalBg').classList.remove('open');
+  document.getElementById('modalBg').setAttribute('data-open', 'false');
 }
 
 function editBm(id) {
@@ -724,9 +451,6 @@ function editBm(id) {
   if (bm) openModal(bm);
 }
 
-// ============================================================
-// UTILS
-// ============================================================
 function esc(str) {
   const d = document.createElement('div');
   d.textContent = str;
@@ -734,25 +458,46 @@ function esc(str) {
 }
 
 function toast(msg, type = 'ok') {
-  const old = document.querySelector('.toast');
+  const old = document.querySelector('[data-toast]');
   if (old) old.remove();
   const t = document.createElement('div');
-  t.className = `toast ${type}`;
+  t.setAttribute('data-toast', '');
+  const color = type === 'ok' ? 'bg-accent text-black' : 'bg-danger text-white';
+  t.className = `fixed bottom-6 right-6 px-5 py-3 rounded-md text-sm font-semibold z-[200] animate-slideUp font-sans ${color}`;
   t.textContent = msg;
   document.body.appendChild(t);
   setTimeout(() => t.remove(), 3000);
 }
 
-// ============================================================
-// EVENTS
-// ============================================================
-document.getElementById('searchInput').addEventListener('input', renderBookmarks);
-document.getElementById('catFilter').addEventListener('change', renderBookmarks);
-document.getElementById('favFilter').addEventListener('change', renderBookmarks);
+document.getElementById('searchInput').addEventListener('input', onSearchInput);
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    clearTimeout(searchDebounce);
+    applyFilters();
+  }
+});
+document.getElementById('catFilter').addEventListener('change', applyFilters);
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-// Start
-init();
+async function handleQueryAction() {
+  const params = new URLSearchParams(window.location.search);
+  const action = params.get('action');
+  if (!action) return;
+
+  history.replaceState({}, '', window.location.pathname);
+
+  if (action === 'add') {
+    openModal();
+  } else if (action === 'favorites') {
+    setFavOnly(true);
+    await applyFilters();
+  }
+}
+
+(async () => {
+  await init();
+  await handleQueryAction();
+})();
 </script>
 </body>
 </html>
