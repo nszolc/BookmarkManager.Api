@@ -1,6 +1,93 @@
-@BookmarkManager.Api_HostAddress = http://localhost:5127
+@HostAddress = http://localhost:5127
 
-GET {{BookmarkManager.Api_HostAddress}}
+### Root
+GET {{HostAddress}}
 Accept: application/json
+
+############################################
+# Bookmarks
+############################################
+
+### Get all bookmarks
+GET {{HostAddress}}/api/bookmarks
+Accept: application/json
+
+### Get all bookmarks (filtered by category, search, favorite)
+GET {{HostAddress}}/api/bookmarks?categoryId=1&search=docs&favorite=true
+Accept: application/json
+
+### Get bookmark by id
+GET {{HostAddress}}/api/bookmarks/1
+Accept: application/json
+
+### Create bookmark
+POST {{HostAddress}}/api/bookmarks
+Content-Type: application/json
+
+{
+  "title": "Microsoft Learn",
+  "url": "https://learn.microsoft.com",
+  "description": "Official .NET documentation",
+  "categoryId": 1,
+  "tagIds": [1, 2]
+}
+
+### Update bookmark
+PUT {{HostAddress}}/api/bookmarks/1
+Content-Type: application/json
+
+{
+  "title": "Microsoft Learn (updated)",
+  "url": "https://learn.microsoft.com/dotnet",
+  "description": "Updated description",
+  "categoryId": 1,
+  "tagIds": [1]
+}
+
+### Toggle favorite
+PATCH {{HostAddress}}/api/bookmarks/1/favorite
+Accept: application/json
+
+### Delete bookmark
+DELETE {{HostAddress}}/api/bookmarks/1
+
+############################################
+# Categories
+############################################
+
+### Get all categories
+GET {{HostAddress}}/api/categories
+Accept: application/json
+
+### Create category
+POST {{HostAddress}}/api/categories
+Content-Type: application/json
+
+{
+  "name": "Programming",
+  "color": "#3b82f6"
+}
+
+### Delete category
+DELETE {{HostAddress}}/api/categories/1
+
+############################################
+# Tags
+############################################
+
+### Get all tags
+GET {{HostAddress}}/api/tags
+Accept: application/json
+
+### Create tag
+POST {{HostAddress}}/api/tags
+Content-Type: application/json
+
+{
+  "name": "tutorial"
+}
+
+### Delete tag
+DELETE {{HostAddress}}/api/tags/1
 
 ###
