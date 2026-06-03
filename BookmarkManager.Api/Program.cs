@@ -35,6 +35,25 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+// Clean URLs for the frontend: the browser keeps the pretty path
+// (e.g. /favorites, /categories) while we serve the matching static
+// HTML file internally. This keeps copy-link and the Back button working.
+var pageRoutes = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+{
+    ["/favorites"] = "/index.html",
+    ["/categories"] = "/categories.html",
+    ["/tags"] = "/tags.html",
+};
+app.Use(async (context, next) =>
+{
+    var path = context.Request.Path.Value;
+    if (path is not null && pageRoutes.TryGetValue(path, out var file))
+    {
+        context.Request.Path = file;
+    }
+    await next();
+});
+
 app.UseDefaultFiles();
 app.UseStaticFiles();
 

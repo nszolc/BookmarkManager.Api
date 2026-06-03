@@ -80,24 +80,51 @@
     <div class="font-mono text-[0.7rem] text-accent tracking-[3px] uppercase mb-6 opacity-80">// bookmark manager</div>
     <nav class="flex md:flex-col gap-1 flex-wrap">
       <div class="md:mb-2">
-        <a href="/" class="nav-link">📚 Bookmarks</a>
+        <a href="/" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-[18px] h-[18px] flex-shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" /></svg>
+          Bookmarks
+        </a>
         <div class="hidden md:flex md:flex-col gap-0.5 mt-1">
-          <a href="/?action=add" class="nav-sublink">➕ Add new</a>
-          <a href="/?action=favorites" class="nav-sublink">⭐ Favorites only</a>
+          <a href="/?action=add" class="nav-sublink">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 flex-shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Add new
+          </a>
+          <a href="/favorites" class="nav-sublink">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 flex-shrink-0"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z" /></svg>
+            Favorites only
+          </a>
         </div>
       </div>
       <div class="md:mb-2">
-        <a href="/categories.html" class="nav-link">📁 Categories</a>
+        <a href="/categories" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-[18px] h-[18px] flex-shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" /></svg>
+          Categories
+        </a>
         <div class="hidden md:flex md:flex-col gap-0.5 mt-1">
-          <a href="/categories.html?action=add" class="nav-sublink">➕ Add new</a>
-          <a href="/categories.html?action=delete" class="nav-sublink">🗑️ Delete</a>
+          <a href="/categories?action=add" class="nav-sublink">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 flex-shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Add new
+          </a>
+          <a href="/categories?action=delete" class="nav-sublink">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 flex-shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" /></svg>
+            Delete
+          </a>
         </div>
       </div>
       <div class="md:mb-2">
-        <a href="/tags.html" class="nav-link nav-link-active">🏷️ Tags</a>
+        <a href="/tags" class="nav-link nav-link-active">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-[18px] h-[18px] flex-shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" /></svg>
+          Tags
+        </a>
         <div class="hidden md:flex md:flex-col gap-0.5 mt-1">
-          <a href="/tags.html?action=add" class="nav-sublink">➕ Add new</a>
-          <a href="/tags.html?action=delete" class="nav-sublink">🗑️ Delete</a>
+          <a href="/tags?action=add" class="nav-sublink">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 flex-shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Add new
+          </a>
+          <a href="/tags?action=delete" class="nav-sublink">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 flex-shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" /></svg>
+            Delete
+          </a>
         </div>
       </div>
     </nav>
@@ -117,7 +144,10 @@
     <div class="bg-ink-900 border border-ink-border rounded-md p-4 flex gap-2 items-center flex-wrap">
       <input type="text" id="newTagName" placeholder="Tag name..." maxlength="50"
         class="flex-1 min-w-[200px] px-3 py-2 bg-ink-input border border-ink-border rounded-md text-neutral-200 text-sm outline-none transition-colors focus:border-accent placeholder:text-dim">
-      <button class="btn btn-add" type="button" onclick="createTag()">+ Add</button>
+      <button class="btn btn-add" type="button" onclick="createTag()">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+        Add
+      </button>
     </div>
 
   </main>
@@ -127,6 +157,16 @@
 <script>
 const API = '/api';
 let tags = [];
+
+// Heroicons (https://heroicons.com) — outline set, rendered inline as SVG.
+const ICON_PATHS = {
+  xmark: 'M6 18 18 6M6 6l12 12',
+  arrowDown: 'M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3',
+};
+
+function icon(name, cls = 'w-5 h-5') {
+  return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${cls}"><path stroke-linecap="round" stroke-linejoin="round" d="${ICON_PATHS[name]}" /></svg>`;
+}
 
 async function loadTags() {
   try {
@@ -143,13 +183,13 @@ async function loadTags() {
 function renderList() {
   const list = document.getElementById('tagList');
   if (tags.length === 0) {
-    list.innerHTML = '<div class="w-full text-dim text-sm text-center py-10 px-4 bg-ink-900 border border-dashed border-ink-border rounded-md">No tags yet. Add one below 👇</div>';
+    list.innerHTML = `<div class="w-full text-dim text-sm text-center py-10 px-4 bg-ink-900 border border-dashed border-ink-border rounded-md">No tags yet. Add one below ${icon('arrowDown', 'w-4 h-4 inline-block align-text-bottom')}</div>`;
     return;
   }
   list.innerHTML = tags.map(t => `
     <div class="inline-flex items-center gap-1 px-3 py-2 bg-accent/10 border border-accent/30 rounded-md transition-colors hover:bg-accent/20">
       <span class="text-accent font-mono text-[0.82rem] font-semibold before:content-['#'] before:opacity-60">${esc(t.name)}</span>
-      <button class="btn btn-ghost btn-sm btn-danger" onclick="deleteTag(${t.id}, '${esc(t.name).replace(/'/g, "\\'")}')" title="Delete tag">×</button>
+      <button class="btn btn-ghost btn-sm btn-danger" onclick="deleteTag(${t.id}, '${esc(t.name).replace(/'/g, "\\'")}')" title="Delete tag">${icon('xmark', 'w-3.5 h-3.5')}</button>
     </div>
   `).join('');
 }

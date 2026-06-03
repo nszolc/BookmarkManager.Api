@@ -85,24 +85,51 @@
     <div class="font-mono text-[0.7rem] text-accent tracking-[3px] uppercase mb-6 opacity-80">// bookmark manager</div>
     <nav class="flex md:flex-col gap-1 flex-wrap">
       <div class="md:mb-2">
-        <a href="/" class="nav-link nav-link-active">📚 Bookmarks</a>
+        <a href="/" class="nav-link nav-link-active">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-[18px] h-[18px] flex-shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" /></svg>
+          Bookmarks
+        </a>
         <div class="hidden md:flex md:flex-col gap-0.5 mt-1">
-          <a href="/?action=add" class="nav-sublink">➕ Add new</a>
-          <a href="/?action=favorites" class="nav-sublink">⭐ Favorites only</a>
+          <a href="/?action=add" class="nav-sublink">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 flex-shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Add new
+          </a>
+          <a href="/favorites" class="nav-sublink">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 flex-shrink-0"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z" /></svg>
+            Favorites only
+          </a>
         </div>
       </div>
       <div class="md:mb-2">
-        <a href="/categories.html" class="nav-link">📁 Categories</a>
+        <a href="/categories" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-[18px] h-[18px] flex-shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" /></svg>
+          Categories
+        </a>
         <div class="hidden md:flex md:flex-col gap-0.5 mt-1">
-          <a href="/categories.html?action=add" class="nav-sublink">➕ Add new</a>
-          <a href="/categories.html?action=delete" class="nav-sublink">🗑️ Delete</a>
+          <a href="/categories?action=add" class="nav-sublink">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 flex-shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Add new
+          </a>
+          <a href="/categories?action=delete" class="nav-sublink">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 flex-shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" /></svg>
+            Delete
+          </a>
         </div>
       </div>
       <div class="md:mb-2">
-        <a href="/tags.html" class="nav-link">🏷️ Tags</a>
+        <a href="/tags" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-[18px] h-[18px] flex-shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" /></svg>
+          Tags
+        </a>
         <div class="hidden md:flex md:flex-col gap-0.5 mt-1">
-          <a href="/tags.html?action=add" class="nav-sublink">➕ Add new</a>
-          <a href="/tags.html?action=delete" class="nav-sublink">🗑️ Delete</a>
+          <a href="/tags?action=add" class="nav-sublink">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 flex-shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Add new
+          </a>
+          <a href="/tags?action=delete" class="nav-sublink">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 flex-shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" /></svg>
+            Delete
+          </a>
         </div>
       </div>
     </nav>
@@ -120,16 +147,25 @@
     <div class="flex gap-2 mb-6 flex-wrap items-center">
       <input type="text" id="searchInput" placeholder="Search bookmarks..."
         class="flex-1 min-w-[160px] px-3 py-2 bg-ink-input border border-ink-border rounded-md text-neutral-200 text-sm outline-none transition-colors focus:border-accent placeholder:text-dim">
-      <button class="btn" onclick="applyFilters()" title="Search">🔍 Search</button>
+      <button class="btn" onclick="applyFilters()" title="Search">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
+        Search
+      </button>
       <select id="catFilter" class="px-3 py-2 bg-ink-input border border-ink-border rounded-md text-neutral-400 text-sm outline-none cursor-pointer">
         <option value="">All categories</option>
       </select>
-      <button class="btn btn-add" onclick="openModal()">+ Add</button>
+      <button class="btn btn-add" onclick="openModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+        Add
+      </button>
     </div>
 
     <div id="favBadge" class="hidden mb-4 inline-flex items-center gap-2 px-3 py-1.5 bg-accent/10 border border-accent/30 rounded-md text-accent text-xs font-semibold">
-      ⭐ Showing favorites only
-      <button onclick="clearFavorites()" class="text-accent hover:text-accent-h" title="Clear filter">×</button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z" /></svg>
+      Showing favorites only
+      <button onclick="clearFavorites()" class="text-accent hover:text-accent-h" title="Clear filter">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
+      </button>
     </div>
 
     <div class="flex flex-col gap-1" id="bmList"></div>
@@ -176,6 +212,28 @@
 <script>
 const API = '/api';
 
+// Heroicons (https://heroicons.com) — outline set, rendered inline as SVG.
+const ICON_PATHS = {
+  plus: 'M12 4.5v15m7.5-7.5h-15',
+  star: 'M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z',
+  trash: 'm14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0',
+  search: 'm21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z',
+  edit: 'm16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10',
+  inbox: 'M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z',
+};
+
+function icon(name, cls = 'w-5 h-5') {
+  return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${cls}"><path stroke-linecap="round" stroke-linejoin="round" d="${ICON_PATHS[name]}" /></svg>`;
+}
+
+const STAR_SOLID = 'M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z';
+
+function starIcon(filled, cls = 'w-5 h-5') {
+  return filled
+    ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="${cls}"><path d="${STAR_SOLID}" /></svg>`
+    : icon('star', cls);
+}
+
 function hexToRgba(hex, alpha) {
   const h = (hex || '').replace('#', '');
   const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
@@ -202,8 +260,8 @@ function setFavOnly(value) {
 }
 
 function clearFavorites() {
-  setFavOnly(false);
-  applyFilters();
+  // Favorites is its own route — leaving the filter means navigating home.
+  window.location.href = '/';
 }
 
 async function init() {
@@ -261,7 +319,7 @@ function renderBookmarkList() {
   if (bookmarks.length === 0) {
     list.innerHTML = `
       <div class="text-center py-16 px-8 text-dim text-sm">
-        <div class="text-4xl mb-3">${hasFilters ? '🔍' : '📭'}</div>
+        <div class="flex justify-center mb-3">${icon(hasFilters ? 'search' : 'inbox', 'w-10 h-10')}</div>
         ${hasFilters
           ? 'No bookmarks match your filters.'
           : 'No bookmarks yet. Click <strong>+ Add</strong> to create one.'}
@@ -277,8 +335,8 @@ function renderBookmarkList() {
 
     return `
       <div class="bg-ink-900 border border-ink-border rounded-md px-4 py-3 flex items-start gap-3 transition-colors hover:border-ink-border-h hover:bg-ink-850">
-        <button class="bg-transparent border-none cursor-pointer text-lg leading-none p-0 flex-shrink-0 mt-0.5 transition-transform hover:scale-125" onclick="toggleFav(${b.id})" title="Toggle favorite">
-          ${b.isFavorite ? '⭐' : '☆'}
+        <button class="bg-transparent border-none cursor-pointer p-0 flex-shrink-0 mt-0.5 transition-transform hover:scale-125 ${b.isFavorite ? 'text-accent' : 'text-dim hover:text-accent'}" onclick="toggleFav(${b.id})" title="Toggle favorite">
+          ${starIcon(b.isFavorite, 'w-5 h-5')}
         </button>
         <div class="flex-1 min-w-0">
           <div class="font-bold text-neutral-200 text-[0.9rem] mb-0.5">
@@ -294,8 +352,8 @@ function renderBookmarkList() {
           </div>
         </div>
         <div class="flex gap-1 flex-shrink-0 mt-0.5">
-          <button class="btn btn-ghost btn-sm" onclick="editBm(${b.id})" title="Edit">✏️</button>
-          <button class="btn btn-ghost btn-sm" onclick="deleteBm(${b.id})" title="Delete">🗑️</button>
+          <button class="btn btn-ghost btn-sm" onclick="editBm(${b.id})" title="Edit">${icon('edit', 'w-4 h-4')}</button>
+          <button class="btn btn-ghost btn-sm btn-danger" onclick="deleteBm(${b.id})" title="Delete">${icon('trash', 'w-4 h-4')}</button>
         </div>
       </div>`;
   }).join('');
@@ -318,7 +376,7 @@ function renderTagChecks() {
     ? tags.map(t =>
         `<label class="inline-flex items-center gap-1 text-sm text-neutral-400 cursor-pointer normal-case tracking-normal"><input type="checkbox" value="${t.id}"> ${esc(t.name)}</label>`
       ).join('')
-    : '<span class="text-dim text-sm">No tags yet. <a href="/tags.html" class="text-accent">Create one →</a></span>';
+    : '<span class="text-dim text-sm">No tags yet. <a href="/tags" class="text-accent">Create one →</a></span>';
 }
 
 function renderStats() {
@@ -479,24 +537,19 @@ document.getElementById('searchInput').addEventListener('keydown', e => {
 document.getElementById('catFilter').addEventListener('change', applyFilters);
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-async function handleQueryAction() {
+function handleQueryAction() {
   const params = new URLSearchParams(window.location.search);
-  const action = params.get('action');
-  if (!action) return;
-
-  history.replaceState({}, '', window.location.pathname);
-
-  if (action === 'add') {
+  if (params.get('action') === 'add') {
+    history.replaceState({}, '', window.location.pathname);
     openModal();
-  } else if (action === 'favorites') {
-    setFavOnly(true);
-    await applyFilters();
   }
 }
 
 (async () => {
+  // The /favorites route shows the favorites-only view.
+  setFavOnly(window.location.pathname === '/favorites');
   await init();
-  await handleQueryAction();
+  handleQueryAction();
 })();
 </script>
 </body>
