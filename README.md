@@ -6,7 +6,7 @@ Personal bookmark manager with REST API and web frontend. Save, organize, tag an
 
 - **Backend:** ASP.NET Core 9, Entity Framework Core, SQL Server
 - **Validation:** FluentValidation
-- **Frontend:** HTML, CSS, vanilla JavaScript (fully AI generated in order to learn how to connect a frontend)
+- **Frontend:** HTML, vanilla JavaScript, [Tailwind CSS](https://tailwindcss.com) (via CDN) and [Heroicons](https://heroicons.com) SVG icons (fully AI generated in order to learn how to connect a frontend)
 - **Database:** SQL Server (via SSMS)
 
 ## Features
@@ -17,7 +17,7 @@ Personal bookmark manager with REST API and web frontend. Save, organize, tag an
 - Custom exception hierarchy with global error handling middleware
 - Request logging middleware (method, path, status code, response time)
 - Input validation with FluentValidation
-- Responsive dark-themed frontend with live API integration (separate pages for bookmarks, categories and tags)
+- Responsive dark-themed frontend (Tailwind CSS + Heroicons) with live API integration (separate pages for bookmarks, categories and tags)
 
 ## Getting Started
 
